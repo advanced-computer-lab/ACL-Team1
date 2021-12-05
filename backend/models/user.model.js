@@ -7,7 +7,20 @@ const userSchema = new Schema({
     type: Boolean,
     required: true,
   },
-  name: {
+  userNumber: {
+    type: Number,
+    required: true,
+  },
+  password:{
+    type: String,
+    requried:true
+  },
+
+  firstName: {
+    type: String,
+    required: true,
+  },
+  lastName: {
     type: String,
     required: true,
   },
@@ -29,6 +42,14 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
+  
+
+  flightsreserved:[{
+    type:Number,
+    required :true
+  }],
+  
+
 }, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);

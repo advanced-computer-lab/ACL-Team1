@@ -1,46 +1,61 @@
 const router = require('express').Router();
 let Flight = require('../models/flight.model');
+const obj = {}
 
-router.route('/').get((req,res) => {
+
+
+router.route('/').get((req, res) => {
   Flight.find()
     .then(flights => res.json(flights))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-
-router.route('/find/:id').get((req,res) => {
+router.route('/:id').get((req, res) => {
   Flight.findById(req.params.id)
-    .then(flight => res.json(flight))
+    .then(user => res.json(user))
     .catch(err => res.status(400).json('Error: ' + err));
+
 });
 
-router.get('/findFlightFrom/:from', (req,res) => {
-    Flight.find({from: req.params.from}).then(flight => res.json(flight));
-});
+// router.route('/:flightNumber').get((req, res) => {
+//   Flight.find({ flightNumber: req.params.flightNumber }).then(flight => res.json(flight));
+// });
 
-router.get('/findFlightTo/:to', (req,res) => {
-  Flight.find({to: req.params.to}).then(flight => res.json(flight));
-});
+// router.route('/search').post((req, res) => {
+//   const flightNumber = req.body.flightNumber
+//   // console.log(flightNumber)
+//   obj["flightNumber"] = flightNumber
+//   // console.log(obj)
+//   Flight.find({ flightNumber: flightNumber }).then(response => res.json(response));
 
-router.get('/findFlightCabin/:cabin', (req,res) => {
-  Flight.find({cabin: req.params.cabin}).then(flight => res.json(flight));
-});
+// });
 
-router.get('/findFlightTerminal/:terminal', (req,res) => {
-  Flight.find({terminal: req.params.terminal}).then(flight => res.json(flight));
-});
+//  exports.search = (req, res) => {
+//   Flight.find(req.body)
+//   .then(result => {
+//   res.send(result).
+//   1)
+//   (parameter) err: any
+//   .catch(err => f
+//   console.log(err);
+// //   });
 
-router.get('/findFlightArrivaltime/:arrivalTime', (req,res) => {
-  Flight.find({arrivalTime: req.params.arrivalTime}).then(flight => res.json(flight));
-});
+// router.route('/getResult').get((req, res) => {
+//   Flight.find(obj, (req, result) => {
+//     // console.log(result)
+//   })
 
-router.get('/findFlightDeparturetime/:departureTime', (req,res) => {
-  Flight.find({departureTime: req.params.departureTime}).then(flight => res.json(flight));
-});
+// })
 
-router.get('/findFlightDate/:date', (req,res) => {
-  Flight.find({flightDate: req.params.flightDate}).then(flight => res.json(flight));
-});
+// /find ,, body = {from:ghj,to:iidii}
+router.post('/find' , (req,res) => {
 
 
-module.exports = router;
+Flight.find(req.body).then(flight => res.json(flight))
+.catch(err => res.status(400).json('Error: ' + err));
+
+  });
+
+
+
+  module.exports = router;

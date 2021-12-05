@@ -4,16 +4,27 @@
   "description": "This is the acl project",
   "main": "index.js",
   "scripts": {
+    "server": "nodemon",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [],
   "author": "Anwar",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "mongoose": "^6.0.12",
-    "prompt-sync": "^4.2.0"
-    
+    "mongoose": "^6.0.13",
+    "nodemailer": "^6.7.2",
+    "nodemon": "^2.0.15",
+    "prompt-sync": "^4.2.0",
+    "react-seat-picker": "^1.5.3"
+  },
+  "devDependencies": {
+    "concurrently": "^6.4.0",
+    "nodemon": "^2.0.15"
   }
 }

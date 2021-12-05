@@ -5,8 +5,6 @@ const bodyParser = require("body-parser");
 
 
 
-
-
 const app = express();
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -15,11 +13,14 @@ app.use(express.json());
 
 const usersRoute = require('./routes/users');
 const flightsRoute = require('./routes/flights');
+const reservationsRoute=require('./routes/reservations');
 const User = require('./models/user.model');
 const Flight = require('./models/flight.model');
 
 app.use('/users', usersRoute);
 app.use('/flights', flightsRoute);
+app.use('/reservations', reservationsRoute);
+// app.use("*", (req,res) => res.status(404).json({error: "not found"}))
 
 
 
@@ -47,39 +48,9 @@ app.post('/', function(req,res){
 
 
 
-// app.post('/', function(req,res){
-
-//   let newFlight = new Flight({
-
-//     from: req.body.addFlightFrom,
-//     to: req.body.addFlightTo,
-//     cabin : req.body.addFlightCabin,
-//     seatNumber: req.body.addFlightSeatNumber,
-//     flightDate : req.body.addFlightDate,
-//     arrivalTime : req.body.addFlightArrivalTime,
-//     departureTime: req.body.addFlightDepartureTime,
-//     terminal: req.body.addFlightTerminal
-    
-//   });
-//   newFlight.save();
-//   res.send("Flight added!");
-  
-// });
-
-
-
-
-
-
-
-  
-
-
-
-
 const mongoose = require("mongoose");
 
-const MongoURI = "mongodb://aclproject:aclproject1@flighdb-shard-00-00.gpxfp.mongodb.net:27017,flighdb-shard-00-01.gpxfp.mongodb.net:27017,flighdb-shard-00-02.gpxfp.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-1nvd5w-shard-0&authSource=admin&retryWrites=true&w=majority";
+const MongoURI = "mongodb://aclproject:aclproject1@flightsdb-shard-00-00.h7puf.mongodb.net:27017,flightsdb-shard-00-01.h7puf.mongodb.net:27017,flightsdb-shard-00-02.h7puf.mongodb.net:27017/flightsDB?ssl=true&replicaSet=atlas-jr8mqb-shard-0&authSource=admin&retryWrites=true&w=majority";
 
 mongoose.connect(MongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
 .then(result =>console.log("MongoDB is now connected") )
@@ -89,6 +60,8 @@ mongoose.connect(MongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
 
 
 
-app.listen(3000, function(){
-  console.log("Server has started at port 3000");
+app.listen(3001, function(){
+  console.log("Server has started at port 3001");
 });
+
+
