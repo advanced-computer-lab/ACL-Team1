@@ -13,8 +13,9 @@ const Search = ({onFlightsChange}) => {
     const destinationCity = useRef("");
     const departureDate = useRef("");
     const arrivalDate = useRef("");
-    const cabinClass = useRef("");
-    const numOfPassengers = useRef("");
+    const economySeats = useRef("");
+    const buisnessSeats = useRef("");
+    // const numOfPassengers = useRef("");
 
     const [flights, setFlights] = useState([]);
 
@@ -39,15 +40,22 @@ const Search = ({onFlightsChange}) => {
             body['arrivalDate'] = arrivalDate.current.value;
         }
 
-        if (cabinClass.current.value !== '') {
+        if (economySeats.current.value !== '') {
 
-            body['eSeatsAvailable'] = cabinClass.current.value;
+            body['eSeatsAvailable'] = economySeats.current.value;
         }
 
-        if (numOfPassengers.current.value !== '') {
-            body['numberOfPassengers'] = numOfPassengers.current.value;
+        if (buisnessSeats.current.value !== '') {
 
+            body['bSeatsAvailable'] = buisnessSeats.current.value;
         }
+
+
+
+        // if (numOfPassengers.current.value !== '') {
+        //     body['reservedUsers'] = numOfPassengers.current.value;
+
+        // }
         axios.post("/flights/find", body)
 
             .then((res) => {
@@ -98,15 +106,15 @@ const Search = ({onFlightsChange}) => {
                 <input
                     className="search-field"
                     type="text"
-                    placeholder="Search cabin class"
-                    ref={cabinClass}
+                    placeholder="Search economy seats"
+                    ref={economySeats}
                 />
-                
+
                 <input
                     className="search-field"
                     type="text"
-                    placeholder="Search number of passengers"
-                    ref={numOfPassengers}
+                    placeholder="Search buisness seats "
+                    ref={buisnessSeats}
 
                 />
                 <button onClick={handleClick} className="search-button">Search</button>
