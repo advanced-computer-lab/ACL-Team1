@@ -65,7 +65,8 @@ function FlightsSchedule() {
                             <div className="card-body">
                                 <h5 id="booking-number" className="card-title">Booking Number: {reservation.bookingNumber + 1}</h5><br />
                                 <h6 className="card-subtitle mb-2 ">User Number: {reservation.userNumber}</h6>
-                                <h6 className="card-subtitle mb-2 ">Flight Number: {reservation.reservationNumber}</h6>
+                                <h6 className="card-subtitle mb-2 ">Flight Number: {reservation.flightNumber}</h6>
+                                <h6 className="card-subtitle mb-2 ">Cabin: {reservation.cabin}</h6>
                                 <h6 className="card-subtitle mb-2 ">Reserved Seats: {reservation.seatsReserved}</h6><br />
                                 <button className="btn btn-danger" onClick={() => cancelFlight(reservation.bookingNumber)}>Cancel Reservation</button>
                             </div>
