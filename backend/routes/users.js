@@ -311,7 +311,7 @@ router.route('/reserve/').put(async (req, res) => {
   const user = await User.findOne({ 'userNumber': userNumber })
   const userEmail = user.email
   var reservations = await Reservation.find()
-  var max = 0;
+  var max = 1;
   if (reservations.length != 0) {
     for (var i = 0; i < reservations.length - 1; i++) {
       if (reservations[i].bookingNumber >= reservations[i + 1].bookingNumber) {
@@ -331,6 +331,7 @@ router.route('/reserve/').put(async (req, res) => {
     bookingNumber,
     userNumber,
     flightNumber,
+    cabin,
     seatsReserved
 
   })
@@ -420,7 +421,7 @@ router.route('/cancel/').put(async (req, res) => {
   const userNumber = reservation.userNumber
   const flightNumber = reservation.flightNumber
   const flight = await Flight.findOne({ 'flightNumber': flightNumber })
-  const cabin = flight.cabin
+  const cabin = reservation.cabin
   const seatsReserved = reservation.seatsReserved
   const user = await User.findOne({ 'userNumber': userNumber })
   const userEmail = user.email
