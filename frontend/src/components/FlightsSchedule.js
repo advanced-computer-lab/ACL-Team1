@@ -58,25 +58,29 @@ function FlightsSchedule() {
 
         <Container><br />
 
-            {reservedFlights.length > 0 ? <><h3 className="flight-schedule">Flights Schedule:</h3><br /><div className="row"  >
-                {reservedFlights.map((reservation, key) => (
-                    <div className="col-lg-4 pb-1" key={reservation.flightNumber}>
-                        <div className="card" key={reservation.flightNumber}>
-                            <div className="card-body">
-                                <h5 id="booking-number" className="card-title">Booking Number: {reservation.bookingNumber + 1}</h5><br />
-                                <h6 className="card-subtitle mb-2 ">User Number: {reservation.userNumber}</h6>
-                                <h6 className="card-subtitle mb-2 ">Flight Number: {reservation.flightNumber}</h6>
-                                <h6 className="card-subtitle mb-2 ">Cabin: {reservation.cabin}</h6>
-                                <h6 className="card-subtitle mb-2 ">Reserved Seats: {reservation.seatsReserved}</h6><br />
-                                <button className="btn btn-danger" onClick={() => cancelFlight(reservation.bookingNumber)}>Cancel Reservation</button>
+            {localStorage.getItem('user') !== null && reservedFlights.length > 0 ? 
+                
+                <><h3 className="flight-schedule">Flights Schedule:</h3><br/>
+                <div className="row">
+                    {reservedFlights.map((reservation, key) => (
+                        <div className="col-lg-4 pb-1" key={reservation.flightNumber}>
+                            <div className="card" key={reservation.flightNumber}>
+                                <div className="card-body">
+                                    <h5 id="booking-number" className="card-title">Booking Number: {reservation.bookingNumber}</h5><br />
+                                    <h6 className="card-subtitle mb-2 ">User Number: {reservation.userNumber}</h6>
+                                    <h6 className="card-subtitle mb-2 ">Flight Number: {reservation.flightNumber}</h6>
+                                    <h6 className="card-subtitle mb-2 ">Cabin: {reservation.cabin}</h6>
+                                    <h6 className="card-subtitle mb-2 ">Reserved Seats: {reservation.seatsReserved}</h6><br />
+                                    <button className="btn btn-danger" onClick={() => cancelFlight(reservation.bookingNumber)}>Cancel Reservation</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                ))}
-            </div></> : <div><h3>No reserved flights.</h3></div>}<br />
-            <button className="btn btn-secondary" onClick={returnToHome}>Return to Home page</button>&nbsp;&nbsp;&nbsp;
+                    ))}
+                </div></> 
+             : <div><h3>No flights reserved.</h3></div>}
 
+            <br/><button className="btn btn-secondary" onClick={returnToHome}>Return to Home page</button>&nbsp;&nbsp;&nbsp;
         </Container>
     )
 
