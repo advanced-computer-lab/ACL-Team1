@@ -23,7 +23,13 @@ const reservationSchema = new Schema({
     seatsReserved: {
         type: Number,
         required: true
-    }
+    },
+ 
+    cabin: {
+        type: String,
+        required:true
+     
+    }, 
 
 
   });
