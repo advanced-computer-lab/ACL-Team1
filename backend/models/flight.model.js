@@ -34,6 +34,12 @@ const flightSchema = new Schema({
     type: String,
     required: true,
   },
+
+  departureAirport: {
+    type: String,
+    required: true,
+    
+  },
   
  
   departureTerminal: {
@@ -52,6 +58,12 @@ const flightSchema = new Schema({
   
   },
 
+  arrivalAirport: {
+    type: String,
+    required: true,
+    
+  },
+
   arrivalTerminal: {
     type: Number,
     required: true,
@@ -66,10 +78,10 @@ const flightSchema = new Schema({
     type: Number,
     required: true,
   },
-  cabin: {
-    type: String,
-    required: true,
-  },
+  // cabin: {
+  //   type: String,
+  //   required: true,
+  // },
   reservedUsers:[{
     type:Number,
     required :true
@@ -81,7 +93,18 @@ const flightSchema = new Schema({
   eSeatsPrice:{
       type:Number,
       required:true
-    }
+  },
+
+  tripDuration:{
+    type:String,
+    required:true
+  },
+
+  baggageAllowance:{
+    type:Number,
+    required:true
+  }
+
 
   
 

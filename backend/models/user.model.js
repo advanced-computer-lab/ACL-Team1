@@ -5,12 +5,12 @@ const userSchema = new Schema({
  
   isAdmin: {
     type: Boolean,
-    required: true,
+    required: false,
   },
-  userNumber: {
-    type: Number,
-    required: true,
-  },
+  // userNumber: {
+  //   type: Number,
+  //   required: true,
+  // },
   password:{
     type: String,
     requried:true
@@ -27,27 +27,16 @@ const userSchema = new Schema({
   email: {
     type: String,
     required: true
-  },
-  age: {
-    type: Number,
-    required: true,
-  },
-
-  birthPlace: {
-    type: String,
-    required: true
-  },
-
-  phoneNumber: {
-    type: String,
-    required: true
-  },
-  
+  },  
 
   flightsreserved:[{
     type:Number,
-    required :true
+    required :false
   }],
+  passportNumber: {
+    type: Number,
+    required: true
+  },  
   
 
 }, { timestamps: true });

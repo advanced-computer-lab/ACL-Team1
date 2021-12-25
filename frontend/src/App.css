@@ -18,22 +18,6 @@
     text-decoration: none;
 }
 
-/* #main {
-    width: 200px;
-    border: 1px dotted black;
-} */
-/* .header {
-    margin: 0;
-      display: inline-block;
-} */
-/* #add_button {
-    float: right;
-} */
-
-/* .card {
-    
-    width: 18rem;
-} */
 
 #flight_info {
     color: white;
@@ -41,7 +25,7 @@
 }
 
 .header {
-    color:seagreen
+    color:black
 }
 
 /* .card-body {
@@ -53,7 +37,7 @@
 }
 
 #back {
-    color:black
+    color:white;
 }
 
 .search-field {
@@ -73,7 +57,7 @@
 }
 
 .flight-schedule {
-    color:green;
+    color:black;
 }
 
 #prompt {
@@ -88,3 +72,459 @@ img {
 .error-message {
     color:red;
 }
+
+.background-image {
+    /* background-image: url(https://siliconcanals.com/wp-content/uploads/2019/08/airplane-travel-tip.jpg); */
+    /* background-position: top top;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+    max-width: 100%; 
+    background-color: rgb(158, 153, 153); */
+    
+}
+
+#cancel-reservation {
+    color:black;
+}
+#edit-reservation {
+    color:black;
+}
+
+
+
+#nav_title {
+    color:white;
+    font-size: 30px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    background: #637d63;
+  }
+  
+  .Application {
+    font-family: sans-serif;
+    text-align: center;
+  }
+  
+  .form {
+    max-width: 330px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    padding: 20px;
+    margin-top: 30px;
+  }
+  
+  .form .form__custom-button {
+    margin-top: 50px;
+  }
+
+#upper-field {
+    background-color: grey;
+}
+
+#search-form-card {
+    margin: auto;
+    border: solid 1px #dbdad7;
+    width: 60%;
+    padding-left: 10px !important;
+    padding-bottom: 10px !important;
+    padding-right: 10px !important;
+    padding-top: 0px !important
+}
+
+#search-form-title {
+    margin:auto;
+    text-align:center;
+    padding: 15px;
+    font-size:30px;
+    /* background-color: #2f7fad; */
+    background-color:grey;
+    color: white; 
+    width: 80% 
+} 
+
+/* div.card-body {
+    padding: 0px
+} */
+#search-form {
+    padding: 0px
+}
+.custom-select {
+    width: 100%
+}
+
+/* .btn2 {
+    margin-left: 10%
+} */
+
+#date-picker {
+    outline: 0 !important;
+    border-width: 0 0 2px !important;
+    border-color: #d1d1cf !important
+} 
+
+input:focus {
+    border-color: #d1d1cf !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important
+}
+
+select {
+    outline: 0 !important;
+    border-width: 0 0 2px !important;
+    border-color: #d1d1cf !important
+}
+
+select:focus {
+    border-color: #d1d1cf !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important
+}
+
+#departure-city {
+    color:grey;
+} 
+
+#destination-city {
+    color:grey;
+}
+
+#departure-time {
+    color:grey;
+}
+
+#arrival-time {
+    color:grey;
+}
+#eco-seats-available {
+    color:grey;
+}
+
+#bus-seats-available {
+    color:grey;
+}
+
+#seats-for-children {
+    color:grey;
+}
+
+#seats-for-adults {
+    color:grey;
+}
+
+#cabin-class {
+    color:grey;
+}
+
+/* .radiobtn {
+    margin-left: 3.5%
+} */
+
+.icons {
+    margin: auto !important
+} 
+
+.fa {
+    border-radius: 25px;
+    width: 10%;
+    margin-left: 5%;
+    border: solid 2px #dbdad7;
+    margin-top: 5%;
+    text-align: center
+}
+
+.fa-plane {
+    color: #1cad9f
+} 
+
+
+#greeting-title {
+    font-size:60px;
+    color:white;
+}
+
+#greeting-body {
+    text-align:center;
+    color:cyan;
+}
+
+#home-navbar {
+    color:grey;
+}
+
+#profile-navbar {
+    color:grey;
+}
+
+#logout-navbar {
+    color:grey;
+}
+
+#login-navbar {
+    color:grey;
+}
+
+#register-navbar {
+    color:grey;
+}
+
+#user-flight-schedule-navbar {
+    color:grey;
+}
+
+#flight-schedule-navbar {
+    color:grey;
+}
+
+#carousel-item-active {
+    height: 550px;
+}
+
+#carousel-item {
+    height: 550px;
+}
+#image-2 {
+   height: 100% !important;
+   width: 100% !important;
+}
+#image-3 {
+   height: 100% !important;
+   width: 100% !important;
+}
+
+#image-4 {
+    height: 100% !important;
+    width: 100% !important;
+ }
+
+ #image-1 {
+    height: 100% !important;
+    width: 100% !important;
+ 
+ }
+/* #carousell {
+    height:600px;
+} */
+
+
+@media only screen and (max-width: 600px) {
+    .card {
+        margin: auto;
+        border: solid 1px #dbdad7;
+        width: 90%;
+        padding-left: 10px !important;
+        padding-bottom: 10px !important;
+        padding-right: 10px !important;
+        padding-top: 0px !important
+    }
+
+    .fa {
+        border-radius: 25px;
+        width: 15%;
+        margin-left: 5%;
+        border: solid 2px #dbdad7;
+        margin-top: 5%;
+        text-align: center
+    }
+}
+
+#all-flights {
+    background-color:grey;
+}    
+
+.section-heading {
+    font-size: 3rem;
+    line-height: 1.5;
+    text-align:center;
+    color:green;
+  }
+
+  .section-par {
+    font-size: 1.5rem;
+    text-align:center;
+    color:grey
+  }
+  /* #pricing {
+    padding: 100px;
+  } */
+  
+  .price-text {
+    font-size: 2rem;
+    line-height: 1.5;
+    text-align:center;
+  }
+  
+  /* .pricing-column {
+    padding: 3% 2%;
+  } */
+
+  #flight-number {
+      text-align:center;
+      color:blue;
+  }
+
+  #from {
+    text-align:center;
+  }
+
+  #to {
+    text-align:center;
+  }
+
+  #departure-date-time {
+    text-align:center;
+  }
+
+  #arrival-date-time {
+    text-align:center;
+  }
+
+  #eco-seats {
+    text-align:center;
+  }
+
+  #bus-seats {
+    text-align:center;
+  }
+
+  body {
+    /* background-image: linear-gradient(to right top, #9A1550, #4D0525); */
+    background-repeat: no-repeat;
+    height: 100vh
+}
+
+::-webkit-scrollbar {
+    width: 6px
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555
+}
+/* 
+.nav-tabs .nav-link.active {
+    border-color: transparent;
+    background-color: #fff !important;
+    color: #9a1550 !important;
+    border-bottom: 4px solid #9a1550 !important
+} */
+
+/* .nav-fill .nav-item .nav-link,
+.nav-justified .nav-item .nav-link {
+    width: 100%;
+    color: #000
+} */
+
+/* .nav-tabs .nav-link {
+    border-top-left-radius: 0rem !important;
+    border-top-right-radius: 0rem !important
+} */
+
+/* .nav-tabs .nav-link.active {
+    border-color: transparent;
+    background-color: #60D0FF;
+    color: #fff;
+    font-weight: 600
+} */
+
+/* .nav-link {
+    height: 77px;
+    font-size: 13px;
+    background-color: #fff
+}
+
+.nav-link:hover {
+    border: none
+}
+
+.nav-link:focus {
+    outline: none
+} */
+
+/* .tab-pane {
+    height: 300px
+} */
+
+.form-control {
+    height: 45px;
+    position: relative
+}
+
+.form-control:focus {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid;
+}
+
+.flight-where-from:after {
+    position: absolute;
+    content: '23';
+    width: 20px;
+    height: 20px;
+    border-radius: 50%
+}
+
+.custom-button {
+    height: 37px;
+    /* background-color: #9a1550; */
+    border: none;
+    color: #fff
+}
+
+.custom-button:hover,
+.custom-button:focus {
+    /* background-color: #9a1550; */
+    box-shadow: none;
+    outline: none
+}
+
+.scroll-y {
+    overflow-y: scroll;
+    height: 300px
+}
+
+#user-info {
+    color:blue;
+}
+
+#passport-number-reservation {
+    text-align:center;
+}
+
+/* #first-name {
+    color:grey;
+}
+
+#last-name {
+    color:grey;
+}
+
+#email {
+    color:grey;
+}
+
+#passport-number {
+    color:grey;
+}
+
+#password {
+    color:grey;
+} */
+
+
+
