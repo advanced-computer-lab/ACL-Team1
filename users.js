@@ -3,16 +3,15 @@ const User = require('../models/user.model');
 const Flight = require('../models/flight.model');
 const Reservation = require('../models/reservation.model');
 const flightRouter = require('./flights')
+const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
-const transporter = nodemailer.createTransport({
 
-  service: "hotmail",
-
+let transporter = nodemailer.createTransport({
+  service: 'outlook',
   auth: {
-    user: "sallawlawlaw@hotmail.com",
-    pass: "mostafasallam1"
+    user: "aclproject2021Sallam@outlook.com",
+    pass: "Mostafasallam"
   }
-
 });
 
 router.route('/').get((req, res) => {
@@ -41,51 +40,14 @@ router.get('/findUserEmail/:email', (req, res) => {
   User.find({ email: req.params.email }).then(user => res.json(user));
 });
 
-router.get('/findUserAge/:age', (req, res) => {
-  User.find({ age: req.params.age }).then(user => res.json(user));
+
+
+router.get('/findUser/:passportNumber', (req, res) => {
+
+  User.find({ passportNumber: req.params.passportNumber }).then(user => res.json(user));
 });
 
-router.get('/findUserBirthPlace/:birthPlace', (req, res) => {
-  User.find({ birthPlace: req.params.birthPlace }).then(user => res.json(user));
-});
 
-router.get('/findUserPhoneNumber/:phoneNumber', (req, res) => {
-  User.find({ phoneNumber: req.params.phoneNumber }).then(user => res.json(user));
-});
-
-User.isAdmin = true;
-
-router.route('/addUser').post((req, res) => {
-
-
-  if (User.isAdmin) {
-    const isAdmin = Boolean(req.body.isAdmin);
-    const name = req.body.name;
-    const email = req.body.email;
-    const age = Number(req.body.age);
-    const birthPlace = req.body.birthPlace;
-    const phoneNumber = req.body.phoneNumber;
-
-
-    const newUser = new User({
-
-      isAdmin,
-      name,
-      email,
-      age,
-      birthPlace,
-      phoneNumber,
-    });
-
-    newUser.save()
-      .then(() => res.json('User added!'))
-      .catch(err => res.status(400).json('Error: ' + err));
-
-  }
-  else {
-    res.send("You are not an admin");
-  }
-});
 
 router.route('/login').post(async (req, res) => {
   const email = req.body.email;
@@ -93,10 +55,16 @@ router.route('/login').post(async (req, res) => {
 
   const user = await User.findOne({ 'email': email })
   console.log(user.password)
-  if (password == user.password && email == user.email) {
-    res.send(user)
+  if ( email == user.email) {
+
+    bcrypt.compare(req.body.password, user.password)
+          .then(isCorrect => {
+            res.send(user)
+            console.log("Login successful!")
+          })
+    
   } else {
-    res.send("Not matching")
+    res.send("Not matching!")
 
   }
 
@@ -105,213 +73,128 @@ router.route('/login').post(async (req, res) => {
 
 })
 
-router.route('/updateUser/:id').post((req, res) => {
-
-  if (User.isAdmin) {
-    User.findById(req.params.id)
-      .then(user => {
-
-        user.isAdmin = Boolean(req.body.isAdmin);
-        user.name = req.body.name;
-        user.age = Number(req.body.age);
-        user.birthPlace = req.body.birthPlace;
-        user.email = req.body.email;
-        user.phoneNumber = req.body.phoneNumber;
-
-        user.save()
-          .then(() => res.json('User updated!'))
-          .catch(err => res.status(400).json('Error: ' + err));
-      })
-      .catch(err => res.status(400).json('Error: ' + err));
-  }
-  else {
-    res.send("You are not an admin!");
-  }
-
-});
 
 router.route('/deleteUser/:id').delete((req, res) => {
-  if (User.isAdmin) {
+  
     User.findByIdAndDelete(req.params.id)
       .then(() => res.json('User deleted.'))
       .catch(err => res.status(400).json('Error: ' + err));
-  }
-  else {
-    res.send("You are not an admin!");
-  }
+
 
 });
 
 
 
 router.route('/addFlight').post((req, res) => {
-  Flight.countDocuments()
-    .then((count_documents) => {
 
-      console.log(count_documents);
-      if (User.isAdmin) {
-        const flightNumber = count_documents + 1
+
+      
+        const flightNumber = Number(req.body.flightNumber);
         const from = req.body.from;
         const to = req.body.to;
-        const arrivalDate = Date.parse(req.body.arrivalDate);
-        const arrivalTerminal = req.body.arrivalTerminal;
+        const arrivalDate = req.body.arrivalDate;
+        const arrivalAirport = req.body.arrivalAirport;
         const arrivalTime = req.body.arrivalTime;
-        const departureDate = Date.parse(req.body.departureDate);
-        const departureTerminal = req.body.departureTerminal;
+        const departureDate = req.body.departureDate;
         const departureTime = req.body.departureTime;
-        const childrenPassengerSeats = req.body.childrenPassengerSeats;
-        const adultPassengersSeats = req.body.adultPassengersSeats;
-        const cabin = req.body.cabin;
+        const departureAirport = req.body.departureAirport;
+        const departureTerminal = req.body.departureTerminal;
+        const arrivalTerminal = req.body.arrivalTerminal;
         const eSeatsAvailable = Number(req.body.eSeatsAvailable);
         const bSeatsAvailable = Number(req.body.bSeatsAvailable);
+        const eSeatsPrice = req.body.eSeatsPrice;
+        const bSeatsPrice = req.body.bSeatsPrice;
         const tripDuration = req.body.tripDuration;
         const baggageAllowance = req.body.baggageAllowance;
-        const ePrice = req.body.ePrice;
-        const bPrice = req.body.bPrice;
 
 
         const newFlight = new Flight({
           flightNumber,
           from,
           to,
-          arrivalDate,
-          arrivalTerminal,
-          arrivalTime,
           departureDate,
-          departureTerminal,
+          departureAirport,
           departureTime,
-          childrenPassengerSeats,
-          adultPassengersSeats,
-          cabin,
+          arrivalDate,
+          arrivalAirport,
+          arrivalTime,
+          departureTerminal,
+          arrivalTerminal,
           eSeatsAvailable,
           bSeatsAvailable,
+          eSeatsPrice,
+          bSeatsPrice,
           tripDuration,
           baggageAllowance,
-          ePrice,
-          bPrice,
-
 
         });
 
 
-        if (req.body.terminal < 0 || req.body.from == req.body.to || req.body.seatNumber < 0 || req.body.arrivalTime <= req.body.departureTime) {
-          console.log(req.body.arrivalTime <= req.body.departureTime)
-          res.json('Entries are not acceptable')
-        }
-
-        else {
-
           newFlight.save()
             .then(() => res.json('Flight added!'))
             .catch(err => res.status(400).json('Error: ' + err));
-        }
+        
 
-      }
-      else {
-        res.send("You are not an admin!");
-      }
+
 
     })
-});
 
 
 
-// router.route('/updateFlight/:id').post((req, res) => {
 
-//   if (User.isAdmin) {
-//     Flight.findById(req.params.id)
-//       .then(flight => {
+router.route('/deleteFlight/').delete(async (req, res) => {
 
-//         flight.flightNumber = req.body.flightNumber;
-//         flight.departureDate = req.body.departureDate;
-//         flight.departureTime = req.body.departureTime;
-//         flight.departureTerminal = req.body.departureTerminal;
-//         flight.arrivalDate = req.body.arrivalDate;
-//         flight.arrivalTime = req.body.arrivalTime;
-//         flight.arrivalTerminal = req.body.arrivalTerminal;
-//         flight.eSeatsAvailable = req.body.eSeatsAvailable;
-//         flight.bSeatsAvailable = req.body.bSeatsAvailable;
+  
+  const flightNumber = req.body.flightNumber;
+  const flight = await Flight.findOne({ 'flightNumber': flightNumber })
 
-//         flight.save()
-//           .then(() => res.json('Flight updated!'))
-//           .catch(err => res.status(400).json('Error: ' + err));
-//       })
-//       .catch(err => res.status(400).json('Error: ' + err));
-//   }
-//   else {
-//     res.send("You are not an admin!");
-//   }
-
-// });
-
-
-
-router.route('/deleteFlight/:id').delete((req, res) => {
-
-
-  // if (User.isAdmin) {
-
-
-  Flight.findOneAndDelete(req.params.id)
-    .then(() => res.json("Flight deleted."))
+  await Flight.findOneAndDelete({ 'flightNumber': flightNumber })
+    .then(() => { res.json('Flight deleted!') })
     .catch(err => res.status(400).json('Error: ' + err));
 
-  // }
-  // else {
-  //   res.send("You are not an admin!");
-  // }
+
 });
 
-// router.route('/reserve/:id').put((req,res) => {
-//   if (User.isAdmin) {
-//     Flight.findById(req.params.id)
-//       .then(flight => {
-
-//         flight.reservedUsers = req.body.name;
-//         flight.save()
-//           .then(() => res.json('Flight updated!'))
-//           .catch(err => res.status(400).json('Error: ' + err));
-//       })
-//       .catch(err => res.status(400).json('Error: ' + err));
-//   }
-//   else {
-//     res.send("You are not an admin!");
-//   }
-
-// });
 
 
-router.put('updateFlight/:id', async (req, res) => {
-  if (User.isAdmin) {
+
+router.put('/updateFlight/:flightNumber', async (req, res) => {
+  
+  flightNum = req.params.flightNumber
+  //console.log(flightNum)
+  
+
     try {
 
-      Flight.findByIdAndUpdate(req.params.id, req.body, { new: true }, (err, model) => {
+      Flight.findOneAndUpdate({'flightNumber': flightNum}, req.body, { new: true }, (err, model) => {
         if (!err) {
           return res.json({ data: model })
         } else {
-          return res.data({ error: `Flight not found` })
+          return res.send({ error: `Flight not found` })
         }
       })
     }
     catch (e) {
-      return res.data({ error: `Request Error` })
+      return res.send({ error: `Request Error` })
 
     }
-  }
+  
 })
 
 
 
 
 router.route('/reserve/').put(async (req, res) => {
-  const userNumber = req.body.userNumber
+  const passportNumber = req.body.passportNumber
   const flightNumber = req.body.flightNumber
   const cabin = req.body.cabin
-  const seatsReserved = req.body.seatsReserved
-  const user = await User.findOne({ 'userNumber': userNumber })
+  const childrenSeatsReserved = req.body.childrenSeatsReserved
+  const adultsSeatsReserved = req.body.adultsSeatsReserved
+  const user = await User.findOne({ 'passportNumber': passportNumber })
   const userEmail = user.email
   var reservations = await Reservation.find()
-  var max = 0;
+  var totalPrice = 0;
+  var max = 1;
   if (reservations.length != 0) {
     for (var i = 0; i < reservations.length - 1; i++) {
       if (reservations[i].bookingNumber >= reservations[i + 1].bookingNumber) {
@@ -329,19 +212,21 @@ router.route('/reserve/').put(async (req, res) => {
 
   const newReservation = new Reservation({
     bookingNumber,
-    userNumber,
+    passportNumber,
     flightNumber,
-    seatsReserved
+    childrenSeatsReserved,
+    adultsSeatsReserved,
+    cabin
 
   })
 
   //update reservedUsers and flightsreserved fields
   const myFlight = await Flight.findOneAndUpdate({ 'flightNumber': flightNumber }, {
     $push: {
-      reservedUsers: userNumber
+      reservedUsers: passportNumber
     }
   })
-  const myUser = await User.findOneAndUpdate({ 'userNumber': userNumber }, {
+  const myUser = await User.findOneAndUpdate({ 'passportNumber': passportNumber }, {
     $push: {
       flightsreserved: flightNumber
     }
@@ -350,11 +235,12 @@ router.route('/reserve/').put(async (req, res) => {
   let newSeats = 0
   if (cabin == "Economy" || cabin == "economy") {
 
-    if (myFlight.eSeatsAvailable >= seatsReserved) {
-      newSeats = myFlight.eSeatsAvailable - seatsReserved
+    if (myFlight.eSeatsAvailable >= (childrenSeatsReserved + adultsSeatsReserved)) {
+      newSeats = myFlight.eSeatsAvailable - childrenSeatsReserved - adultsSeatsReserved
       await Flight.findOneAndUpdate({ 'flightNumber': flightNumber }, {
         eSeatsAvailable: newSeats
       })
+      totalPrice = (myFlight.eSeatsPrice * adultsSeatsReserved) + (myFlight.eSeatsPrice * childrenSeatsReserved * 0.5)
     }
 
     else {
@@ -362,12 +248,13 @@ router.route('/reserve/').put(async (req, res) => {
     }
   }
 
-  else if (cabin === "Business" || cabin == "buisness") {
-    if (myFlight.eSeatsAvailable >= seatsReserved) {
-      newSeats = myFlight.bSeatsAvailable - seatsReserved
+  else if (cabin === "Business" || cabin == "business") {
+    if (myFlight.eSeatsAvailable >= (childrenSeatsReserved + adultsSeatsReserved)) {
+      newSeats = myFlight.bSeatsAvailable - childrenSeatsReserved - adultsSeatsReserved
       await Flight.findOneAndUpdate({ 'flightNumber': flightNumber }, {
         bSeatsAvailable: newSeats
       })
+      totalPrice = (myFlight.bSeatsPrice * adultsSeatsReserved) + (myFlight.bSeatsPrice * childrenSeatsReserved * 0.5)
     } else {
       res.send("Not enough remaining seats.")
 
@@ -378,7 +265,7 @@ router.route('/reserve/').put(async (req, res) => {
 
   const options = {
 
-    from: "sallawlawlaw@hotmail.com",
+    from: "aclproject2021Sallam@outlook.com",
     to: userEmail,
     subject: "Reservation Confirmation",
     text:
@@ -391,7 +278,9 @@ router.route('/reserve/').put(async (req, res) => {
       "\n      Departure: " + myFlight.departureDate + " " + myFlight.departureTime +
       "\n      Arrival: " + myFlight.arrivalDate + " " + myFlight.arrivalTime +
       "\n      Departure Terminal: " + myFlight.departureTerminal +
-      "\n      Arrival Terminal: " + myFlight.arrivalTerminal
+      "\n      Arrival Terminal: " + myFlight.arrivalTerminal +
+      "\n      Total Price: " + totalPrice
+      
   }
   transporter.sendMail(options, function (err, info) {
     if (err) {
@@ -405,7 +294,7 @@ router.route('/reserve/').put(async (req, res) => {
     .then(() => {
       res.json('reserved!')
       // console.log(myFlight)
-      //  myFlight.reservedUsers=myFlight.reservedUsers.push(userNumber) 
+      //  myFlight.reservedUsers=myFlight.reservedUsers.push(id) 
 
       //  // 3ashan yzwd el users el 3amalo reserve fel flight di 
     })
@@ -414,15 +303,280 @@ router.route('/reserve/').put(async (req, res) => {
 
 )
 
+router.put('/updateReservation/:bookingNumber', async (req, res) => {
+  
+  
+    
+    try {
+      Reservation.findOneAndUpdate(req.params.bookingNumber, req.body, { new: true }, (err, model) => {   
+        
+        if (!err) {
+          return res.json({ data: model })
+        
+        } 
+        
+        else {
+          return res.data({ error: `Reservation not found` })
+        }
+      })
+    }
+    catch (e) {
+      return res.data({ error: `Request Error` })
+
+    }
+
+    //req.body el user mdakhalha
+
+    const bookingNumber = req.body.bookingNumber
+    const reservation = await Reservation.findOne({ 'bookingNumber': bookingNumber })
+    const passportNumber = reservation.passportNumber
+    const flightNumber = reservation.flightNumber
+    const flight = await Flight.findOne({ 'flightNumber': flightNumber })
+    const oldCabin = reservation.cabin
+    const childrenSeatsReserved = reservation.childrenSeatsReserved
+    const adultsSeatsReserved = reservation.adultsSeatsReserved
+    const user = await User.findOne({ 'passportNumber': passportNumber })
+    const userEmail = user.email
+    const newCabin = req.body.cabin
+    var refundedPrice = 0;
+    var debitedPrice = 0;
+    var catcher = 0;
+
+
+
+    const myFlight = await Flight.findOneAndUpdate({ 'flightNumber': flightNumber }, {
+      $pull: {
+        reservedUsers: passportNumber
+      }
+    })
+    console.log(myFlight.reservedUsers)
+  
+    const myUser = await User.findOneAndUpdate({ 'passportNumber': passportNumber }, {
+      $pull: {
+        flightsreserved: flightNumber
+      }
+    })
+    let newESeats = 0
+    let newBSeats = 0
+    
+    
+   // refundedPrice = 0.9 * ((myFlight.eSeatsPrice * adultsSeatsReserved) + (myFlight.eSeatsPrice * childrenSeatsReserved * 0.5))
+   
+
+
+    if(oldCabin != newCabin){
+
+      if(newCabin == 'Economy' || newCabin == 'economy'){
+
+
+        newESeats = myFlight.eSeatsAvailable - (childrenSeatsReserved + adultsSeatsReserved)
+        await Flight.findOneAndUpdate({ 'flightNumber': flightNumber }, {
+        eSeatsAvailable: newESeats
+       })
+
+       newBSeats = myFlight.bSeatsAvailable + (childrenSeatsReserved + adultsSeatsReserved)
+        await Flight.findOneAndUpdate({ 'flightNumber': flightNumber }, {
+        bSeatsAvailable: newBSeats
+       })
+
+       catcher = 0;
+       refundedPrice = myFlight.bSeatsPrice * (adultsSeatsReserved + childrenSeatsReserved*0.5) - myFlight.eSeatsPrice * (adultsSeatsReserved + childrenSeatsReserved*0.5) 
+
+        
+        reservation.cabin = 'Economy'
+        
+      }
+
+      else if (newCabin == 'Business' || newCabin == 'business'){
+
+
+
+
+        newESeats = myFlight.eSeatsAvailable + (childrenSeatsReserved + adultsSeatsReserved)
+        await Flight.findOneAndUpdate({ 'flightNumber': flightNumber }, {
+        eSeatsAvailable: newESeats
+       })
+
+       newBSeats = myFlight.bSeatsAvailable - (childrenSeatsReserved + adultsSeatsReserved)
+        await Flight.findOneAndUpdate({ 'flightNumber': flightNumber }, {
+        bSeatsAvailable: newBSeats
+       })
+
+
+       catcher = 1;
+       debitedPrice = myFlight.bSeatsPrice * (adultsSeatsReserved + childrenSeatsReserved*0.5) - myFlight.eSeatsPrice * (adultsSeatsReserved + childrenSeatsReserved*0.5) 
+
+
+        
+        reservation.cabin = 'Business'
+        
+      }
+
+    }
+
+    
+    if(childrenSeatsReserved != req.body.childrenSeatsReserved){
+
+      if(newCabin == 'Economy' || newCabin == 'economy'){
+
+
+        newESeats = myFlight.eSeatsAvailable + childrenSeatsReserved - req.body.childrenSeatsReserved
+        await Flight.findOneAndUpdate({ 'flightNumber': flightNumber }, {
+        eSeatsAvailable: newESeats
+       })
+
+       if(childrenSeatsReserved > req.body.childrenSeatsReserved){
+         catcher = 0;
+         refundedPrice =  refundedPrice +  myFlight.eSeatsPrice * (childrenSeatsReserved - req.body.childrenSeatsReserved)*0.5
+       }
+       else{
+         catcher = 1;
+        debitedPrice=  debitedPrice +  myFlight.eSeatsPrice * (req.body.childrenSeatsReserved -childrenSeatsReserved )*0.5
+       }
+      
+
+      reservation.childrenSeatsReserved = req.body.childrenSeatsReserved
+
+      
+
+      }
+
+      else if (newCabin == 'Business' || newCabin == 'business'){
+
+        newBSeats = myFlight.bSeatsAvailable + childrenSeatsReserved - req.body.childrenSeatsReserved
+        await Flight.findOneAndUpdate({ 'flightNumber': flightNumber }, {
+        bSeatsAvailable: newBSeats
+       })  
+       
+       if(childrenSeatsReserved > req.body.childrenSeatsReserved){
+         catcher = 0;
+        refundedPrice =  refundedPrice +  myFlight.bSeatsPrice * (childrenSeatsReserved - req.body.childrenSeatsReserved)*0.5
+      }
+      else{
+        catcher = 1;
+       debitedPrice=  debitedPrice +  myFlight.bSeatsPrice * (req.body.childrenSeatsReserved - childrenSeatsReserved )*0.5
+      }
+       
+        reservation.childrenSeatsReserved = req.body.childrenSeatsReserved
+      }
+    }
+
+
+
+
+    if(adultsSeatsReserved != req.body.adultsSeatsReserved){
+
+      if(newCabin == 'Economy' || newCabin == 'economy'){
+        newESeats = myFlight.eSeatsAvailable + adultsSeatsReserved - req.body.adultsSeatsReserved
+        await Flight.findOneAndUpdate({ 'flightNumber': flightNumber }, {
+        eSeatsAvailable: newESeats
+       })
+       
+       if(adultsSeatsReserved > req.body.adultsSeatsReserved){
+         catcher = 0;
+        refundedPrice =  refundedPrice +  myFlight.eSeatsPrice * (adultsSeatsReserved - req.body.adultsSeatsReserved)
+      }
+      else{
+        catcher = 1;
+       debitedPrice=  debitedPrice +  myFlight.eSeatsPrice * ( req.body.adultsSeatsReserved - adultsSeatsReserved)
+      }
+     
+      reservation.adultsSeatsReserved = req.body.adultsSeatsReserved
+      }
+
+      else if (newCabin == 'Business' || newCabin == 'business'){
+        newBSeats = myFlight.bSeatsAvailable + adultsSeatsReserved - req.body.adultsSeatsReserved
+        await Flight.findOneAndUpdate({ 'flightNumber': flightNumber }, {
+        bSeatsAvailable: newBSeats
+       })  
+
+       if(adultsSeatsReserved > req.body.adultsSeatsReserved){
+         catcher = 0;
+        refundedPrice =  refundedPrice +  myFlight.bSeatsPrice * (adultsSeatsReserved - req.body.adultsSeatsReserved)
+      }
+      else{
+        catcher = 1;
+       debitedPrice=  debitedPrice +  myFlight.bSeatsPrice * (req.body.adultsSeatsReserved - adultsSeatsReserved)
+      }
+     
+
+
+        reservation.adultsSeatsReserved = req.body.adultsSeatsReserved
+      }
+    }
+
+
+if(catcher == 0){
+
+    const options = {
+
+      from: "aclproject2021Sallam@outlook.com",
+      to: userEmail,
+      subject: "Billing Update",
+      text:
+        "Dear," + user.firstName + " " + user.lastName + ",\n" +
+        " This is a Billing Update mail that you have done some changes to your reservation and the refunded amount is shown below:" +
+        "                                                                      \n" +
+        "\n      From: " + myFlight.from +
+        "\n      To: " + myFlight.to +
+        "\n      Cabin: " + newCabin +
+        "\n      Departure: " + myFlight.departureDate + " " + myFlight.departureTime +
+        "\n      Arrival: " + myFlight.arrivalDate + " " + myFlight.arrivalTime +
+        "\n      Departure Terminal: " + myFlight.departureTerminal +
+        "\n      Arrival Terminal: " + myFlight.arrivalTerminal +
+        "\n      Refunded Amount is: " + refundedPrice
+    }
+    transporter.sendMail(options, function (err, info) {
+      if (err) {
+        console.log(err)
+        return
+      }
+      console.log("Sent: " + info)
+    });
+
+
+  }
+
+  else{
+    const options = {
+
+      from: "aclproject2021Sallam@outlook.com",
+      to: userEmail,
+      subject: "Billing Update",
+      text:
+        "Dear," + user.firstName + " " + user.lastName + ",\n" +
+        " This is a Billing Update mail that you have done some changes to your reservation and the Debited amount is shown below:" +
+        "                                                                      \n" +
+        "\n      From: " + myFlight.from +
+        "\n      To: " + myFlight.to +
+        "\n      Cabin: " + newCabin +
+        "\n      Departure: " + myFlight.departureDate + " " + myFlight.departureTime +
+        "\n      Arrival: " + myFlight.arrivalDate + " " + myFlight.arrivalTime +
+        "\n      Departure Terminal: " + myFlight.departureTerminal +
+        "\n      Arrival Terminal: " + myFlight.arrivalTerminal +
+        "\n      Debited Amount is: " + debitedPrice
+    }
+    transporter.sendMail(options, function (err, info) {
+      if (err) {
+        console.log(err)
+        return
+      }
+      console.log("Sent: " + info)
+    });
+  }
+  
+})
+
 router.route('/cancel/').put(async (req, res) => {
   const bookingNumber = req.body.bookingNumber
   const reservation = await Reservation.findOne({ 'bookingNumber': bookingNumber })
-  const userNumber = reservation.userNumber
+  const passportNumber = reservation.passportNumber
   const flightNumber = reservation.flightNumber
   const flight = await Flight.findOne({ 'flightNumber': flightNumber })
-  const cabin = flight.cabin
-  const seatsReserved = reservation.seatsReserved
-  const user = await User.findOne({ 'userNumber': userNumber })
+  const cabin = reservation.cabin
+  const childrenSeatsReserved = reservation.childrenSeatsReserved
+  const adultsSeatsReserved = reservation.adultsSeatsReserved
+  const user = await User.findOne({ 'passportNumber': passportNumber })
   const userEmail = user.email
   var refundedPrice = 0;
 
@@ -430,33 +584,33 @@ router.route('/cancel/').put(async (req, res) => {
 
   const myFlight = await Flight.findOneAndUpdate({ 'flightNumber': flightNumber }, {
     $pull: {
-      reservedUsers: userNumber
+      reservedUsers: passportNumber
     }
   })
-  console.log(myFlight.reservedUsers + "dsdsds")
+  console.log(myFlight.reservedUsers)
 
-  const myUser = await User.findOneAndUpdate({ 'userNumber': userNumber }, {
+  const myUser = await User.findOneAndUpdate({ 'passportNumber': passportNumber }, {
     $pull: {
       flightsreserved: flightNumber
     }
   })
   let newSeats = 0
   if (cabin == "Economy" || cabin == "economy") {
-    newSeats = myFlight.eSeatsAvailable + seatsReserved
+    newSeats = myFlight.eSeatsAvailable + childrenSeatsReserved + adultsSeatsReserved
     await Flight.findOneAndUpdate({ 'flightNumber': flightNumber }, {
       eSeatsAvailable: newSeats
     })
-    refundedPrice = 0.9 * myFlight.eSeatsPrice
+    refundedPrice = 0.9 * ((myFlight.eSeatsPrice * adultsSeatsReserved) + (myFlight.eSeatsPrice * childrenSeatsReserved * 0.5))
 
 
   }
 
-  else if (cabin === "Business" || cabin == "buisness") {
-    newSeats = myFlight.bSeatsAvailable + seatsReserved
+  else if (cabin === "Business" || cabin == "business") {
+    newSeats = myFlight.bSeatsAvailable + childrenSeatsReserved + adultsSeatsReserved
     await Flight.findOneAndUpdate({ 'flightNumber': flightNumber }, {
       bSeatsAvailable: newSeats
     })
-    refundedPrice = 0.9 * myFlight.bSeatsPrice
+    refundedPrice = 0.9 * ((myFlight.bSeatsPrice * adultsSeatsReserved) + (myFlight.bSeatsPrice * childrenSeatsReserved * 0.5))
     console.log(refundedPrice)
 
 
@@ -465,7 +619,7 @@ router.route('/cancel/').put(async (req, res) => {
 
   const options = {
 
-    from: "sallawlawlaw@hotmail.com",
+    from: "aclproject2021Sallam@outlook.com",
     to: userEmail,
     subject: "Cancelation Confirmation",
     text:
@@ -498,61 +652,87 @@ router.route('/cancel/').put(async (req, res) => {
 
 
 
-
-// router.route('/updateFlight').put((req, res) => {
-
-
-//   if (User.isAdmin) {
-
-//     const flightNumber = req.body.flightNumberOld;
-//     const departureDateOld = req.body.departureDateOld;
-//     const departureTimeOld = req.body.departureTimeOld;
-//     const departureTerminalOld = req.body.departureTerminalOld;
-//     const arrivalDateOld = req.body.arrivalDateOld;
-//     const arrivalTimeOld = req.body.arrivalTimeOld;
-//     const arrivalTerminalOld = req.body.arrivalTerminalOld;
-//     const eSeatsAvailableOld = req.body.eSeatsAvailableOld;
-//     const bSeatsAvailableOld = req.body.bSeatsAvailableOld;
+// router.route('/updateUser/:passportNumber').put(async(req, res) => {
 
 
+//   const passportNumberParams= req.params.passportNumber;
+//   const firstName = req.body.firstName;
+//   const lastName = req.body.lastName;
+//   const email = req.body.email;
+//   const passportNumber = req.body.passportNumber;
+//   const oldPassword=req.body.oldPassword;
+//   let user = await User.findOne({'passportNumber':passportNumberParams})
+//   if(oldPassword){
+//     const passwordCorrect= await bcrypt.compare(oldPassword,user.password)
+//     if(passwordCorrect){
+//       console.log("password correct")
+//       let newPassword= await bcrypt.hash(req.body.newPassword, 10)
+//       let x=await User.findOneAndUpdate({'passportNumber':passportNumberParams},{'password':newPassword},{'firstName':firstName},{'lastName':lastName},
+//       {'email':email},{'passportNumber':passportNumber})
+//       console.log(x)
 
 
-
-//     const flightNumber = req.body.flightNumber;
-//     const departureDate = req.body.departureDate;
-//     const departureTime = req.body.departureTime;
-//     const departureTerminal = req.body.departureTerminal;
-//     const arrivalDate = req.body.arrivalDate;
-//     const arrivalTime = req.body.arrivalTime;
-//     const arrivalTerminal = req.body.arrivalTerminal;
-//     const eSeatsAvailable = req.body.eSeatsAvailable;
-//     const bSeatsAvailable = req.body.bSeatsAvailable;
-
-
-//     Flight.findOneAndUpdate({
-//       'flightNumber': flightNumberOld,'arrivalTime': arrivalTimeOld, 'arrivalDate': arrivalDateOld, 'arrivalTerminal': arrivalTerminalOld, 'arrivalTime': arrivalTimeOld, 'departureTime': departureTimeOld, 'departureDate': departureDateOld,
-//       'departureTerminal': departureTerminalOld, 'eSeatsAvailable': eSeatsAvailableOld, 'bSeatsAvailable': bSeatsAvailableOld,
 //     }
-//       ,
-//       {
-//         'flightNumber': flightNumber,'arrivalTime': arrivalTime, 'arrivalDate': arrivalDate, 'arrivalTerminal': arrivalTerminal, 'arrivalTime': arrivalTime, 'departureTime': departureTime, 'departureDate': departureDate,
-//         'departureTerminal': departureTerminal, 'eSeatsAvailable': eSeatsAvailable, 'bSeatsAvailable': bSeatsAvailable,
-//       })
-
-
-//     Flight.updateOne
-//       .then(flights => res.json("Flight updated!"))
-//       .catch(err => res.status(400).json('Error: ' + err));
-
-
-
 
 //   }
-//   else {
-//     res.send("You are not an admin");
-//   }
-// });
 
+
+
+// })
+
+// router.put('/updateUser/:passportNumber', async (req, res) => {
+      
+//   try {
+//     User.findOneAndUpdate(req.params.passportNumber, req.body, { new: true }, (err, model) => {   
+      
+//       if (!err) {
+//         return res.json({ data: model })
+      
+//       } 
+      
+//       else {
+//         return res.data({ error: `User not found` })
+//       }
+//     })
+//   }
+//   catch (e) {
+//     return res.data({ error: `Request Error` })
+
+//   }
+
+// })
+
+router.put('/updateUser/:passportNumber', async (req, res) => {
+      
+  try {
+
+    User.findOneAndUpdate(req.params.passportNumber, req.body, { new: true }, (err, model) => {   
+      
+      if (!err) {
+        return res.json({ data: model })
+      
+      } 
+      
+      else {
+        return res.json({ error: `User not found` })
+      }
+    })
+    const passportNumber=parseInt(req.params.passportNumber);
+    let newPassword= await bcrypt.hash(req.body.newPassword, 10)
+        let x=await User.findOneAndUpdate({'passportNumber':passportNumber},{'password':newPassword})
+        // console.log(x)
+    
+      }
+  
+    
+   
+  
+  catch (e) {
+    return res.json({ error: `Request Error` })
+
+  }
+
+})
 
 
 module.exports = router;
