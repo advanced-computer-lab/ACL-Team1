@@ -359,7 +359,7 @@ select:focus {
   .price-text {
     font-size: 2rem;
     line-height: 1.5;
-    text-align:center;
+    text-align:left;
   }
   
   /* .pricing-column {
@@ -371,29 +371,63 @@ select:focus {
       color:blue;
   }
 
+  #price {
+      text-align: left;
+      padding-left: 10px;
+  }
   #from {
-    text-align:center;
+    text-align:left;
+    padding-left: 10px;
   }
 
   #to {
-    text-align:center;
+    text-align:left;
+    padding-left: 10px;
   }
 
   #departure-date-time {
-    text-align:center;
+    text-align:left;
+    padding-left: 10px;
   }
 
   #arrival-date-time {
-    text-align:center;
+    text-align:left;
+    padding-left: 10px;
   }
 
   #eco-seats {
-    text-align:center;
+    text-align:left;
+    padding-left: 10px;
   }
 
   #bus-seats {
-    text-align:center;
+    text-align:left;
+    padding-left: 10px;
   }
+
+  #passport-number-reservation {
+    text-align:left;
+    padding-left: 13px;
+}
+  #flight-reserved {
+    text-align:left;
+    padding-left: 13px;
+  }
+
+  #cabin-reserved {
+    text-align:left;
+    padding-left: 16px;
+  }
+
+  #adults-seats {
+      text-align: left;
+      padding-left: 15px;
+  }
+
+  #children-seats {
+    text-align: left;
+    padding-left: 15px;
+}
 
   body {
     /* background-image: linear-gradient(to right top, #9A1550, #4D0525); */
@@ -502,9 +536,7 @@ select:focus {
     color:blue;
 }
 
-#passport-number-reservation {
-    text-align:center;
-}
+
 
 /* #first-name {
     color:grey;
