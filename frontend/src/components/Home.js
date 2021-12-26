@@ -427,13 +427,14 @@ function Home() {
                                         <h3 id="flight-number">Flight {flight.flightNumber}&nbsp;< FontAwesomeIcon icon = {faPlane} /></h3>
                                     </div>
                                     <div class="card-body">
-                                        <h2 class="price-text">{flight.eSeatsPrice}EGP/{flight.bSeatsPrice}EGP</h2>
+                                        
                                         <p id="from"><Icon icon="tabler:plane-departure" width="28" height="28"/>&nbsp;From: {flight.from}</p>
                                         <p id="to"><Icon icon="tabler:plane-arrival" width="28" height="28"/>&nbsp;To: {flight.to}</p>
                                         <p id="departure-date-time"><Icon icon="fe:calendar" width="28" height="28"/>&nbsp;Departure Date & Time: {flight.departureDate}/{flight.departureTime}</p>
                                         <p id="arrival-date-time"><Icon icon="fe:calendar" width="28" height="28"/>&nbsp;Arrival date & Time: {flight.arrivalDate}/{flight.arrivalTime}</p>
                                         <p id="eco-seats"><Icon icon="zmdi:airline-seat-recline-extra" width="28" height="28"/>&nbsp;Economy Seats Available: {flight.eSeatsAvailable}</p>
                                         <p id="bus-seats"><Icon icon="zmdi:airline-seat-recline-extra" width="28" height="28"/>&nbsp;Business Seats Available : {flight.bSeatsAvailable}</p>
+                                        <p id="price"><Icon icon="dashicons:money-alt" width="28" height="28"/>&nbsp;{flight.eSeatsPrice}EGP/{flight.bSeatsPrice}EGP</p>
  
 
                                         {isAdmin === true 
